@@ -1,0 +1,62 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "data",
+    srcs = [
+        "accountManager.go",
+        "genesisBalances.go",
+        "ledger.go",
+        "txHandler.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/data",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//agreement",
+        "//config",
+        "//crypto",
+        "//data/account",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/committee",
+        "//data/pools",
+        "//data/transactions",
+        "//data/transactions/verify",
+        "//ledger",
+        "//ledger/ledgercore",
+        "//logging",
+        "//logging/telemetryspec",
+        "//network",
+        "//protocol",
+        "//util/execpool",
+        "//util/metrics",
+        "@com_github_algorand_go_deadlock//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "data_test",
+    srcs = [
+        "common_test.go",
+        "ledger_test.go",
+        "txHandler_test.go",
+    ],
+    embed = [":data"],
+    deps = [
+        "//agreement",
+        "//components/mocks",
+        "//config",
+        "//crypto",
+        "//data/account",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/pools",
+        "//data/transactions",
+        "//ledger",
+        "//ledger/ledgercore",
+        "//logging",
+        "//protocol",
+        "//util/db",
+        "//util/execpool",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

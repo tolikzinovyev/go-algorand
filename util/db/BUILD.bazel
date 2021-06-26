@@ -1,0 +1,33 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "db",
+    srcs = [
+        "dbpair.go",
+        "dbutil.go",
+        "fullfsync_darwin.go",
+        "queryable.go",
+        "versioning.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/util/db",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//logging",
+        "@com_github_mattn_go_sqlite3//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "db_test",
+    srcs = [
+        "dbutil_test.go",
+        "perf_test.go",
+        "versioning_test.go",
+    ],
+    embed = [":db"],
+    deps = [
+        "//crypto",
+        "//logging",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

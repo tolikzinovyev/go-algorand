@@ -1,0 +1,44 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "pools",
+    srcs = [
+        "statusCache.go",
+        "transactionPool.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/data/pools",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//ledger",
+        "//ledger/ledgercore",
+        "//logging",
+        "//logging/telemetryspec",
+        "//protocol",
+        "//util/condvar",
+        "@com_github_algorand_go_deadlock//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "pools_test",
+    srcs = ["transactionPool_test.go"],
+    embed = [":pools"],
+    deps = [
+        "//agreement",
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//data/transactions/logic",
+        "//ledger",
+        "//ledger/ledgercore",
+        "//logging",
+        "//protocol",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

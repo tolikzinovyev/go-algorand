@@ -1,0 +1,42 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "verify",
+    srcs = [
+        "txn.go",
+        "verifiedTxnCache.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/data/transactions/verify",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//data/transactions/logic",
+        "//protocol",
+        "//util/execpool",
+        "//util/metrics",
+        "@com_github_algorand_go_deadlock//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "verify_test",
+    srcs = [
+        "txn_test.go",
+        "verifiedTxnCache_test.go",
+    ],
+    embed = [":verify"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//protocol",
+        "//util/execpool",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

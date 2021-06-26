@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+
+go_library(
+    name = "logfilter_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/algorand/go-algorand/debug/logfilter",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "logfilter",
+    embed = [":logfilter_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "logfilter_test",
+    srcs = ["main_test.go"],
+    embed = [":logfilter_lib"],
+    deps = ["@com_github_stretchr_testify//require:go_default_library"],
+)

@@ -1,0 +1,42 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "ledgercore",
+    srcs = [
+        "catchpointlabel.go",
+        "error.go",
+        "msgp_gen.go",
+        "statedelta.go",
+        "totals.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/ledger/ledgercore",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//logging",
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+    ],
+)
+
+go_test(
+    name = "ledgercore_test",
+    srcs = [
+        "catchpointlabel_test.go",
+        "msgp_gen_test.go",
+        "statedelta_test.go",
+        "totals_test.go",
+    ],
+    embed = [":ledgercore"],
+    deps = [
+        "//crypto",
+        "//data/basics",
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

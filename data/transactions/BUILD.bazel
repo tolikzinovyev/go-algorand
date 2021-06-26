@@ -1,0 +1,53 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "transactions",
+    srcs = [
+        "application.go",
+        "application_string.go",
+        "asset.go",
+        "compactcert.go",
+        "error.go",
+        "keyreg.go",
+        "logicsig.go",
+        "msgp_gen.go",
+        "payment.go",
+        "payset.go",
+        "signedtxn.go",
+        "testhelpers.go",
+        "transaction.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/data/transactions",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//crypto/compactcert",
+        "//data/basics",
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+    ],
+)
+
+go_test(
+    name = "transactions_test",
+    srcs = [
+        "application_test.go",
+        "common_test.go",
+        "msgp_gen_test.go",
+        "payment_test.go",
+        "payset_test.go",
+        "perf_test.go",
+        "signedtxn_test.go",
+        "transaction_test.go",
+    ],
+    embed = [":transactions"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

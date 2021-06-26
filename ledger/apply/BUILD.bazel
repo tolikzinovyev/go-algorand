@@ -1,0 +1,44 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "apply",
+    srcs = [
+        "application.go",
+        "apply.go",
+        "asset.go",
+        "keyreg.go",
+        "payment.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/ledger/apply",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/transactions",
+        "//data/transactions/logic",
+        "//ledger/ledgercore",
+    ],
+)
+
+go_test(
+    name = "apply_test",
+    srcs = [
+        "application_test.go",
+        "asset_test.go",
+        "keyreg_test.go",
+        "mockBalances_test.go",
+        "payment_test.go",
+    ],
+    embed = [":apply"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/transactions",
+        "//data/transactions/logic",
+        "//ledger/ledgercore",
+        "//protocol",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

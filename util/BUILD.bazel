@@ -1,0 +1,17 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "util",
+    srcs = [
+        "io.go",
+        "process.go",
+        "process_common.go",
+        "process_windows.go",
+        "util.go",
+        "util_windows.go",
+        "watchdogStreamReader.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/util",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_algorand_go_deadlock//:go_default_library"],
+)

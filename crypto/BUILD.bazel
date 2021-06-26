@@ -1,0 +1,50 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "crypto",
+    srcs = [
+        "cryptoerror.go",
+        "curve25519.go",
+        "memcpy_chk_windows.c",
+        "msgp_gen.go",
+        "multisig.go",
+        "onetimesig.go",
+        "rand.go",
+        "util.go",
+        "vrf.go",
+    ],
+    cgo = True,
+    cdeps = ["//third_party/libsodium-fork:libsodium"],
+    importpath = "github.com/algorand/go-algorand/crypto",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//logging",
+        "//protocol",
+        "//util/metrics",
+        "@com_github_algorand_go_deadlock//:go_default_library",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+        "@com_github_davidlazar_go_crypto//drbg:go_default_library",
+    ],
+)
+
+go_test(
+    name = "crypto_test",
+    srcs = [
+        "crypto_test.go",
+        "curve25519_test.go",
+        "encoding_test.go",
+        "msgp_gen_test.go",
+        "multisig_test.go",
+        "onetimesig_test.go",
+        "rand_test.go",
+        "util_test.go",
+        "vrf_test.go",
+    ],
+    embed = [":crypto"],
+    deps = [
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

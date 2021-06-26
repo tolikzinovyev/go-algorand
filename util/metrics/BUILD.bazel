@@ -1,0 +1,42 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "metrics",
+    srcs = [
+        "counter.go",
+        "counterCommon.go",
+        "gauge.go",
+        "gaugeCommon.go",
+        "metrics.go",
+        "registry.go",
+        "registryCommon.go",
+        "reporter.go",
+        "segment.go",
+        "service.go",
+        "serviceCommon.go",
+        "stringGauge.go",
+        "stringGaugeCommon.go",
+        "tagcounter.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/util/metrics",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_algorand_go_deadlock//:go_default_library"],
+)
+
+go_test(
+    name = "metrics_test",
+    srcs = [
+        "counter_test.go",
+        "gauge_test.go",
+        "metrics_test.go",
+        "reporter_test.go",
+        "segment_test.go",
+        "stringGauge_test.go",
+        "tagcounter_test.go",
+    ],
+    embed = [":metrics"],
+    deps = [
+        "@com_github_algorand_go_deadlock//:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

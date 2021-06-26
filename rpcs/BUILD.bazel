@@ -1,0 +1,62 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "rpcs",
+    srcs = [
+        "blockService.go",
+        "httpTxSync.go",
+        "ledgerService.go",
+        "msgp_gen.go",
+        "registrar.go",
+        "txService.go",
+        "txSyncer.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/rpcs",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//agreement",
+        "//config",
+        "//crypto",
+        "//data",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//ledger/ledgercore",
+        "//logging",
+        "//network",
+        "//protocol",
+        "//util/bloom",
+        "@com_github_algorand_go_codec_codec//:go_default_library",
+        "@com_github_algorand_go_deadlock//:go_default_library",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+        "@com_github_gorilla_mux//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "rpcs_test",
+    srcs = [
+        "blockService_test.go",
+        "msgp_gen_test.go",
+        "txService_test.go",
+        "txSyncer_test.go",
+    ],
+    embed = [":rpcs"],
+    deps = [
+        "//agreement",
+        "//components/mocks",
+        "//config",
+        "//crypto",
+        "//data",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//logging",
+        "//network",
+        "//protocol",
+        "//util/bloom",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+        "@com_github_gorilla_mux//:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

@@ -1,0 +1,18 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "condvar",
+    srcs = ["timedwait.go"],
+    importpath = "github.com/algorand/go-algorand/util/condvar",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "condvar_test",
+    srcs = ["timedwait_test.go"],
+    embed = [":condvar"],
+    deps = [
+        "@com_github_algorand_go_deadlock//:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

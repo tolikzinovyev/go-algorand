@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "passphrase",
+    srcs = [
+        "errors.go",
+        "passphrase.go",
+        "wordlist.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/crypto/passphrase",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "passphrase_test",
+    srcs = ["passphrase_test.go"],
+    embed = [":passphrase"],
+    deps = [
+        "//crypto",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

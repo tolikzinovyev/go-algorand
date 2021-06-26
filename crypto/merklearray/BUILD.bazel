@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "merklearray",
+    srcs = [
+        "array.go",
+        "layer.go",
+        "merkle.go",
+        "partial.go",
+        "worker.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/crypto/merklearray",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//crypto",
+        "//protocol",
+    ],
+)
+
+go_test(
+    name = "merklearray_test",
+    srcs = [
+        "layer_test.go",
+        "merkle_test.go",
+    ],
+    embed = [":merklearray"],
+    deps = [
+        "//crypto",
+        "//protocol",
+    ],
+)

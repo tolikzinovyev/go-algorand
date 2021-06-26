@@ -1,0 +1,41 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "committee",
+    srcs = [
+        "committee.go",
+        "credential.go",
+        "msgp_gen.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/data/committee",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/committee/sortition",
+        "//logging",
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+    ],
+)
+
+go_test(
+    name = "committee_test",
+    srcs = [
+        "common_test.go",
+        "credential_test.go",
+        "encoding_test.go",
+        "msgp_gen_test.go",
+    ],
+    embed = [":committee"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/transactions",
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

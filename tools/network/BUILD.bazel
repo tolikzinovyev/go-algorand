@@ -1,0 +1,37 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "network",
+    srcs = [
+        "bootstrap.go",
+        "externalIP.go",
+        "resolveController.go",
+        "resolver.go",
+        "telemetryURIUpdateService.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/tools/network",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//logging",
+        "//protocol",
+        "//tools/network/dnssec",
+    ],
+)
+
+go_test(
+    name = "network_test",
+    srcs = [
+        "resolveController_test.go",
+        "resolver_test.go",
+        "telemetryURIUpdateService_test.go",
+    ],
+    embed = [":network"],
+    deps = [
+        "//config",
+        "//logging",
+        "//protocol",
+        "//tools/network/dnssec",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

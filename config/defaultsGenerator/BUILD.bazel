@@ -1,0 +1,15 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "defaultsGenerator_lib",
+    srcs = ["defaultsGenerator.go"],
+    importpath = "github.com/algorand/go-algorand/config/defaultsGenerator",
+    visibility = ["//visibility:private"],
+    deps = ["//config"],
+)
+
+go_binary(
+    name = "defaultsGenerator",
+    embed = [":defaultsGenerator_lib"],
+    visibility = ["//visibility:public"],
+)

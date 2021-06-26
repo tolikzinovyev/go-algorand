@@ -1,0 +1,47 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "dnssec",
+    srcs = [
+        "anchor.go",
+        "client.go",
+        "config.go",
+        "config_unix.go",
+        "config_windows.go",
+        "dialer.go",
+        "resolver.go",
+        "sort.go",
+        "testHarness.go",
+        "trustchain.go",
+        "trustedzone.go",
+        "util.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/tools/network/dnssec",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//logging",
+        "@com_github_algorand_go_deadlock//:go_default_library",
+        "@com_github_miekg_dns//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "dnssec_test",
+    srcs = [
+        "anchor_test.go",
+        "client_test.go",
+        "config_test.go",
+        "config_unix_test.go",
+        "dnssec_test.go",
+        "sort_test.go",
+        "trustedchain_test.go",
+        "trustedzone_test.go",
+        "util_test.go",
+    ],
+    embed = [":dnssec"],
+    deps = [
+        "//logging",
+        "@com_github_miekg_dns//:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

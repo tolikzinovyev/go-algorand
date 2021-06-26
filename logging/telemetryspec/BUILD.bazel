@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "telemetryspec",
+    srcs = [
+        "category.go",
+        "event.go",
+        "eventTiming.go",
+        "metric.go",
+        "operation.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/logging/telemetryspec",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "telemetryspec_test",
+    srcs = ["metric_test.go"],
+    embed = [":telemetryspec"],
+    deps = ["@com_github_stretchr_testify//require:go_default_library"],
+)

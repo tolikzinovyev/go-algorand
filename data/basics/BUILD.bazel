@@ -1,0 +1,43 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "basics",
+    srcs = [
+        "address.go",
+        "msgp_gen.go",
+        "overflow.go",
+        "sort.go",
+        "teal.go",
+        "units.go",
+        "userBalance.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/data/basics",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//logging",
+        "//protocol",
+        "@com_github_algorand_go_codec_codec//:go_default_library",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+    ],
+)
+
+go_test(
+    name = "basics_test",
+    srcs = [
+        "address_test.go",
+        "msgp_gen_test.go",
+        "teal_test.go",
+        "units_test.go",
+        "userBalance_test.go",
+    ],
+    embed = [":basics"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "merkletrie",
+    srcs = [
+        "bitset.go",
+        "cache.go",
+        "committer.go",
+        "node.go",
+        "trie.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/crypto/merkletrie",
+    visibility = ["//visibility:public"],
+    deps = ["//crypto"],
+)
+
+go_test(
+    name = "merkletrie_test",
+    srcs = [
+        "bitset_test.go",
+        "cache_test.go",
+        "committer_test.go",
+        "node_test.go",
+        "trie_test.go",
+    ],
+    embed = [":merkletrie"],
+    deps = [
+        "//crypto",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

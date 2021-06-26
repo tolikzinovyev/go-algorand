@@ -1,0 +1,33 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "indexer",
+    srcs = [
+        "db.go",
+        "indexer.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/node/indexer",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//data/basics",
+        "//data/bookkeeping",
+        "//logging",
+        "//util/db",
+    ],
+)
+
+go_test(
+    name = "indexer_test",
+    srcs = ["indexer_test.go"],
+    embed = [":indexer"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//protocol",
+        "@com_github_stretchr_testify//require:go_default_library",
+        "@com_github_stretchr_testify//suite:go_default_library",
+    ],
+)

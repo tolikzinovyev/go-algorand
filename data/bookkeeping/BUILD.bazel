@@ -1,0 +1,46 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "bookkeeping",
+    srcs = [
+        "block.go",
+        "genesis.go",
+        "msgp_gen.go",
+        "prettyprinting.go",
+        "txn_merkle.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/data/bookkeeping",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//crypto/merklearray",
+        "//data/basics",
+        "//data/committee",
+        "//data/transactions",
+        "//logging",
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+    ],
+)
+
+go_test(
+    name = "bookkeeping_test",
+    srcs = [
+        "block_test.go",
+        "encoding_test.go",
+        "msgp_gen_test.go",
+        "txn_merkle_test.go",
+    ],
+    embed = [":bookkeeping"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//crypto/merklearray",
+        "//data/basics",
+        "//data/transactions",
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

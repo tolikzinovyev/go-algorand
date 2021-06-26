@@ -1,0 +1,38 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "config",
+    srcs = [
+        "buildvars.go",
+        "config.go",
+        "consensus.go",
+        "keyfile.go",
+        "local_defaults.go",
+        "migrate.go",
+        "version.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/config",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//protocol",
+        "//util/codecs",
+    ],
+)
+
+go_test(
+    name = "config_test",
+    srcs = [
+        "config_test.go",
+        "consensus_test.go",
+    ],
+    embed = [":config"],
+    deps = [
+        "//protocol",
+        "//util/codecs",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+    data = [
+        "//installer:config.json.example",
+        "//test/testdata/configs",
+    ]
+)

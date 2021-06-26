@@ -1,0 +1,50 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "logic",
+    srcs = [
+        "assembler.go",
+        "debugger.go",
+        "doc.go",
+        "eval.go",
+        "fields.go",
+        "fields_string.go",
+        "opcodes.go",
+        "program.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/data/transactions/logic",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/transactions",
+        "//logging",
+        "//protocol",
+        "@org_golang_x_crypto//sha3:go_default_library",
+    ],
+)
+
+go_test(
+    name = "logic_test",
+    srcs = [
+        "assembler_test.go",
+        "backwardCompat_test.go",
+        "debugger_test.go",
+        "doc_test.go",
+        "evalStateful_test.go",
+        "eval_test.go",
+        "opcodes_test.go",
+    ],
+    embed = [":logic"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//logging",
+        "//protocol",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

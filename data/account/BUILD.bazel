@@ -1,0 +1,36 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "account",
+    srcs = [
+        "account.go",
+        "partInstall.go",
+        "participation.go",
+        "rootInstall.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/data/account",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/transactions",
+        "//logging",
+        "//protocol",
+        "//util/db",
+    ],
+)
+
+go_test(
+    name = "account_test",
+    srcs = ["participation_test.go"],
+    embed = [":account"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//protocol",
+        "//util/db",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

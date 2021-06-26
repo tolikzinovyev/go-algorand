@@ -1,0 +1,11 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "execpool",
+    srcs = [
+        "backlog.go",
+        "pool.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/util/execpool",
+    visibility = ["//visibility:public"],
+)

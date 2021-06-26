@@ -1,0 +1,34 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "gen",
+    srcs = [
+        "generate.go",
+        "walletData.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/gen",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//data/account",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//protocol",
+        "//util",
+        "//util/db",
+        "@com_github_algorand_go_deadlock//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "gen_test",
+    srcs = ["generate_test.go"],
+    embed = [":gen"],
+    deps = [
+        "//config",
+        "//data/account",
+        "//protocol",
+        "//util/db",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

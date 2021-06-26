@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "tealcut_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/algorand/go-algorand/tools/teal/tealcut",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//crypto",
+        "//data/basics",
+        "//data/transactions/logic",
+    ],
+)
+
+go_binary(
+    name = "tealcut",
+    embed = [":tealcut_lib"],
+    visibility = ["//visibility:public"],
+)

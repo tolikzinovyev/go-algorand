@@ -1,0 +1,41 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "compactcert",
+    srcs = [
+        "bigfloat.go",
+        "builder.go",
+        "common.go",
+        "msgp_gen.go",
+        "structs.go",
+        "verifier.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/crypto/compactcert",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//crypto",
+        "//crypto/merklearray",
+        "//data/basics",
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+    ],
+)
+
+go_test(
+    name = "compactcert_test",
+    srcs = [
+        "bigfloat_test.go",
+        "builder_test.go",
+        "common_test.go",
+        "msgp_gen_test.go",
+    ],
+    embed = [":compactcert"],
+    deps = [
+        "//crypto",
+        "//crypto/merklearray",
+        "//data/basics",
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

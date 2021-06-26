@@ -1,0 +1,15 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "logspec",
+    srcs = [
+        "agreement.go",
+        "agreementtype_string.go",
+        "component_string.go",
+        "ledger.go",
+        "ledgertype_string.go",
+        "root.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/logging/logspec",
+    visibility = ["//visibility:public"],
+)

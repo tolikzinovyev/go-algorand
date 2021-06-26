@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "sortition",
+    srcs = [
+        "sortition.cpp",
+        "sortition.go",
+        "sortition.h",
+    ],
+    cgo = True,
+    copts = ["-O3"],
+    cxxopts = ["-std=c++11"],
+    importpath = "github.com/algorand/go-algorand/data/committee/sortition",
+    visibility = ["//visibility:public"],
+    deps = ["//crypto"],
+)
+
+go_test(
+    name = "sortition_test",
+    srcs = ["sortition_test.go"],
+    embed = [":sortition"],
+    deps = ["//crypto"],
+)

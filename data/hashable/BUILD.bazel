@@ -1,0 +1,25 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "hashable",
+    srcs = [
+        "message.go",
+        "msgp_gen.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/data/hashable",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+    ],
+)
+
+go_test(
+    name = "hashable_test",
+    srcs = ["msgp_gen_test.go"],
+    embed = [":hashable"],
+    deps = [
+        "//protocol",
+        "@com_github_algorand_msgp//msgp:go_default_library",
+    ],
+)

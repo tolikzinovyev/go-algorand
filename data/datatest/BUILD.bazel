@@ -1,0 +1,24 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "datatest",
+    srcs = [
+        "fabricateLedger.go",
+        "impls.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/data/datatest",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//agreement",
+        "//agreement/agreementtest",
+        "//config",
+        "//crypto",
+        "//data",
+        "//data/account",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/committee",
+        "//logging",
+        "//protocol",
+    ],
+)

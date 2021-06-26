@@ -1,0 +1,34 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "gossip",
+    srcs = ["network.go"],
+    importpath = "github.com/algorand/go-algorand/agreement/gossip",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//agreement",
+        "//logging",
+        "//network",
+        "//network/messagetracer",
+        "//protocol",
+        "//util/metrics",
+    ],
+)
+
+go_test(
+    name = "gossip_test",
+    srcs = [
+        "networkFull_test.go",
+        "network_test.go",
+    ],
+    embed = [":gossip"],
+    deps = [
+        "//config",
+        "//logging",
+        "//network",
+        "//protocol",
+        "//util",
+        "@com_github_algorand_go_deadlock//:go_default_library",
+        "@com_github_stretchr_testify//assert:go_default_library",
+    ],
+)

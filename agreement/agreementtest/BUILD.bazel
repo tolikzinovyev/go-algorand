@@ -1,0 +1,45 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "agreementtest",
+    srcs = [
+        "keyManager.go",
+        "simulate.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/agreement/agreementtest",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//agreement",
+        "//agreement/gossip",
+        "//components/mocks",
+        "//config",
+        "//crypto",
+        "//data/account",
+        "//data/basics",
+        "//logging",
+        "//protocol",
+        "//util/db",
+        "//util/timers",
+        "@com_github_algorand_go_deadlock//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "agreementtest_test",
+    srcs = ["simulate_test.go"],
+    embed = [":agreementtest"],
+    deps = [
+        "//agreement",
+        "//config",
+        "//crypto",
+        "//data/account",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/committee",
+        "//logging",
+        "//protocol",
+        "//util/db",
+        "@com_github_algorand_go_deadlock//:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

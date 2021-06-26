@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "bloom",
+    srcs = ["bloom.go"],
+    importpath = "github.com/algorand/go-algorand/util/bloom",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_dchest_siphash//:go_default_library"],
+)
+
+go_test(
+    name = "bloom_test",
+    srcs = ["bloom_test.go"],
+    embed = [":bloom"],
+    deps = [
+        "//crypto",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

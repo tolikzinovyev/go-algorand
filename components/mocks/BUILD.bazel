@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "mocks",
+    srcs = [
+        "mockCatchpointCatchupAccessor.go",
+        "mockNetwork.go",
+        "mockNodeContext.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/components/mocks",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//data/basics",
+        "//data/bookkeeping",
+        "//ledger",
+        "//network",
+        "//protocol",
+    ],
+)
