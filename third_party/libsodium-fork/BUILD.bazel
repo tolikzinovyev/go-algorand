@@ -1,16 +1,27 @@
-load("@rules_foreign_cc//foreign_cc:configure.bzl", "configure_make")
+#load("@rules_foreign_cc//foreign_cc:configure.bzl", "configure_make")
 
 package(default_visibility = ["//visibility:public"])
 
-filegroup(
-    name = "sources",
-    srcs = glob(["**"]),
-)
+#filegroup(
+#    name = "sources",
+#    srcs = glob(["**"]),
+#)
+#
+#configure_make(
+#    name = "libsodium",
+#    autogen = True,
+#    configure_options = ["--disable-shared"],
+#    configure_in_place = True,  # required by autogen
+#    lib_source = ":sources",
+#)
 
-configure_make(
+cc_library(
     name = "libsodium",
-    autogen = True,
-    configure_options = ["--disable-shared"],
-    configure_in_place = True,  # required by autogen
-    lib_source = ":sources",
+    srcs = glob(["src/**/*.c"]),
+    hdrs = glob(["src/**/*.h"]),
+    copts = ["-DCONFIGURED"],  # suppress libsodium warnings
+    includes = [
+        "src/libsodium/include",
+        "src/libsodium/include/sodium",
+    ],
 )
