@@ -76,6 +76,7 @@ go_library(
 
 go_test(
     name = "agreement_test",
+    size = "large",
     srcs = [
         "bundle_test.go",
         "certificate_test.go",
