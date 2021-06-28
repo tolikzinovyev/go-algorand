@@ -472,6 +472,7 @@ func (m mismatchingDirectroyPermissionsLog) Errorf(fmts string, args ...interfac
 
 // TestMismatchingGenesisDirectoryPermissions tests to see that the os.MkDir check we have in MakeFull works as expected. It tests both the return error as well as the logged error.
 func TestMismatchingGenesisDirectoryPermissions(t *testing.T) {
+	t.Skip()
 	testDirectroy, err := ioutil.TempDir(os.TempDir(), t.Name())
 	require.NoError(t, err)
 
