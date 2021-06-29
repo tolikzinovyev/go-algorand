@@ -1,0 +1,54 @@
+--- BUILD.bazel_	2021-06-29 00:27:53.494305037 -0400
++++ BUILD.bazel	2021-06-29 00:45:19.354323095 -0400
+@@ -5,5 +5,17 @@
+ gazelle(name = "gazelle")
+ 
++include_path = "external/com_github_karalabe_hid"
++
++cc_library(
++    name = "libusb",
++    hdrs = glob(["libusb/libusb/**/*"]),
++)
++
++cc_library(
++    name = "hidapi",
++    hdrs = glob(["hidapi/**/*"]),
++)
++
+ go_library(
+     name = "hid",
+     srcs = [
+@@ -27,23 +39,27 @@
+     }),
+     copts = select({
+         "@io_bazel_rules_go//go/platform:android": [
+-            "-Ihidapi/hidapi",
+-            "-Ilibusb/libusb -DDEFAULT_VISIBILITY= -DOS_LINUX -D_GNU_SOURCE -DPOLL_NFDS_TYPE=int",
++            "-I" + include_path + "/hidapi/hidapi",
++            "-I" + include_path + "/libusb/libusb -DDEFAULT_VISIBILITY= -DOS_LINUX -D_GNU_SOURCE -DPOLL_NFDS_TYPE=int",
+         ],
+         "@io_bazel_rules_go//go/platform:darwin": [
+             "-DOS_DARWIN",
+-            "-Ihidapi/hidapi",
++            "-I" + include_path + "/hidapi/hidapi",
+         ],
+         "@io_bazel_rules_go//go/platform:linux": [
+-            "-Ihidapi/hidapi",
+-            "-Ilibusb/libusb -DDEFAULT_VISIBILITY= -DOS_LINUX -D_GNU_SOURCE -DPOLL_NFDS_TYPE=int",
++            "-I" + include_path + "/hidapi/hidapi",
++            "-I" + include_path + "/libusb/libusb -DDEFAULT_VISIBILITY= -DOS_LINUX -D_GNU_SOURCE -DPOLL_NFDS_TYPE=int",
+         ],
+         "@io_bazel_rules_go//go/platform:windows": [
+             "-DOS_WINDOWS",
+-            "-Ihidapi/hidapi",
++            "-I" + include_path + "/hidapi/hidapi",
+         ],
+         "//conditions:default": [],
+     }),
++    cdeps = [
++        ":hidapi",
++        ":libusb",
++    ],
+     importpath = "github.com/karalabe/hid",
+     visibility = ["//visibility:public"],
+ )
