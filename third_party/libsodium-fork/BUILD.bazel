@@ -10,8 +10,8 @@ filegroup(
 configure_make(
     name = "libsodium",
     autogen = True,
-    configure_options = ["--disable-shared"],
     configure_in_place = True,  # required by autogen
+    configure_options = ["--disable-shared"],
     lib_source = ":sources",
 )
 
