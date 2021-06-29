@@ -273,12 +273,13 @@ go_repository(
     version = "v1.0.0",
 )
 
-go_repository(
-    name = "com_github_karalabe_hid",
-    importpath = "github.com/karalabe/hid",
-    sum = "h1:BkkpZxPVs3gIf+3Tejt8lWzuo2P29N1ChGUMEpuSJ8U=",
-    version = "v0.0.0-20181128192157-d815e0c1a2e2",
-)
+#go_repository(
+#    name = "com_github_karalabe_hid",
+#    importpath = "github.com/karalabe/hid",
+#    sum = "h1:BkkpZxPVs3gIf+3Tejt8lWzuo2P29N1ChGUMEpuSJ8U=",
+#    version = "v0.0.0-20181128192157-d815e0c1a2e2",
+#    patches = ["//third_party/hid:BUILD.bazel.patch"],  # keep
+#)
 
 go_repository(
     name = "com_github_konsorten_go_windows_terminal_sequences",
@@ -630,3 +631,8 @@ load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
 # Use this as is if you are using the rbe_ubuntu16_04 container,
 # otherwise refer to RBE docs.
 rbe_autoconfig(name = "rbe_default")
+
+local_repository(
+    name = "com_github_karalabe_hid",
+    path = "third_party/com_github_karalabe_hid",
+)
