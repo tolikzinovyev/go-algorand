@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "server",
+    srcs = [
+        "errors.go",
+        "server.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/daemon/kmd/server",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//daemon/kmd/api",
+        "//daemon/kmd/session",
+        "//logging",
+        "//util/tokens",
+        "@com_github_algorand_go_deadlock//:go-deadlock",
+        "@com_github_gofrs_flock//:flock",
+    ],
+)

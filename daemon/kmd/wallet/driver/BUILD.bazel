@@ -1,0 +1,35 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "driver",
+    srcs = [
+        "driver.go",
+        "ledger.go",
+        "ledger_errors.go",
+        "ledger_hid.go",
+        "sqlite.go",
+        "sqlite_crypto.go",
+        "sqlite_errors.go",
+        "util.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/daemon/kmd/wallet/driver",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//crypto",
+        "//daemon/kmd/config",
+        "//daemon/kmd/wallet",
+        "//data/basics",
+        "//data/transactions",
+        "//data/transactions/logic",
+        "//logging",
+        "//protocol",
+        "@com_github_algorand_go_codec_codec//:codec",
+        "@com_github_algorand_go_deadlock//:go-deadlock",
+        "@com_github_jmoiron_sqlx//:sqlx",
+        "@com_github_karalabe_hid//:hid",
+        "@com_github_mattn_go_sqlite3//:go-sqlite3",
+        "@org_golang_x_crypto//hkdf",
+        "@org_golang_x_crypto//nacl/secretbox",
+        "@org_golang_x_crypto//scrypt",
+    ],
+)

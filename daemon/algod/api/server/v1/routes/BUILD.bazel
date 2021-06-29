@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "routes",
+    srcs = ["routes.go"],
+    importpath = "github.com/algorand/go-algorand/daemon/algod/api/server/v1/routes",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//daemon/algod/api/server/lib",
+        "//daemon/algod/api/server/v1/handlers",
+    ],
+)

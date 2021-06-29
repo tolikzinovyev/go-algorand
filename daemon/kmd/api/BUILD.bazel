@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "api",
+    srcs = [
+        "api.go",
+        "cors.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/daemon/kmd/api",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//daemon/kmd/api/v1:api",
+        "//daemon/kmd/lib/kmdapi",
+        "//daemon/kmd/session",
+        "//logging",
+        "//protocol",
+        "@com_github_gorilla_mux//:mux",
+    ],
+)

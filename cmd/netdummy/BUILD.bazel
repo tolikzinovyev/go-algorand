@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "netdummy_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/algorand/go-algorand/cmd/netdummy",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//config",
+        "//logging",
+        "//network",
+        "//protocol",
+        "@com_github_algorand_go_deadlock//:go-deadlock",
+    ],
+)
+
+go_binary(
+    name = "netdummy",
+    embed = [":netdummy_lib"],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "algons_lib",
+    srcs = [
+        "commands.go",
+        "dnsCmd.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/algons",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//tools/network",
+        "//tools/network/cloudflare",
+        "@com_github_spf13_cobra//:cobra",
+    ],
+)
+
+go_binary(
+    name = "algons",
+    embed = [":algons_lib"],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,34 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "algokey_lib",
+    srcs = [
+        "common.go",
+        "export.go",
+        "generate.go",
+        "import.go",
+        "main.go",
+        "multisig.go",
+        "part.go",
+        "sign.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/algokey",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//crypto",
+        "//crypto/passphrase",
+        "//data/account",
+        "//data/basics",
+        "//data/transactions",
+        "//protocol",
+        "//util/db",
+        "@com_github_spf13_cobra//:cobra",
+        "@com_github_spf13_cobra//doc",
+    ],
+)
+
+go_binary(
+    name = "algokey",
+    embed = [":algokey_lib"],
+    visibility = ["//visibility:public"],
+)

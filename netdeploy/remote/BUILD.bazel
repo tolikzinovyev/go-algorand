@@ -1,0 +1,48 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "remote",
+    srcs = [
+        "bootstrappedNetwork.go",
+        "buildConfig.go",
+        "deployedNetwork.go",
+        "hostConfig.go",
+        "hostTemplate.go",
+        "nodeConfig.go",
+        "nodeWalletData.go",
+        "topology.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/netdeploy/remote",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//agreement",
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//data/transactions/logic",
+        "//gen",
+        "//ledger",
+        "//logging",
+        "//protocol",
+        "//util",
+        "//util/codecs",
+    ],
+)
+
+go_test(
+    name = "remote_test",
+    srcs = [
+        "bootstrappedNetwork_test.go",
+        "deployedNetwork_test.go",
+    ],
+    embed = [":remote"],
+    deps = [
+        "//config",
+        "//data/basics",
+        "//protocol",
+        "@com_github_stretchr_testify//require",
+    ],
+    data = ["//test/testdata/deployednettemplates/networks/bootstrapped"],
+)

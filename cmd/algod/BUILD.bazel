@@ -1,0 +1,39 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+
+go_library(
+    name = "algod_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/algorand/go-algorand/cmd/algod",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//daemon/algod",
+        "//data/bookkeeping",
+        "//logging",
+        "//logging/telemetryspec",
+        "//network",
+        "//protocol",
+        "//tools/network",
+        "//util/metrics",
+        "//util/tokens",
+        "@com_github_algorand_go_deadlock//:go-deadlock",
+        "@com_github_gofrs_flock//:flock",
+    ],
+)
+
+go_binary(
+    name = "algod",
+    embed = [":algod_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "algod_test",
+    srcs = ["main_test.go"],
+    embed = [":algod_lib"],
+    deps = [
+        "//config",
+        "@com_github_stretchr_testify//require",
+    ],
+)

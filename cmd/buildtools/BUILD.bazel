@@ -1,0 +1,24 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "buildtools_lib",
+    srcs = [
+        "commands.go",
+        "genesis.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/buildtools",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//crypto",
+        "//data/bookkeeping",
+        "//protocol",
+        "//util",
+        "@com_github_spf13_cobra//:cobra",
+    ],
+)
+
+go_binary(
+    name = "buildtools",
+    embed = [":buildtools_lib"],
+    visibility = ["//visibility:public"],
+)

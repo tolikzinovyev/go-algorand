@@ -1,0 +1,27 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "loadgenerator_lib",
+    srcs = [
+        "config.go",
+        "main.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/loadgenerator",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//crypto",
+        "//crypto/passphrase",
+        "//daemon/algod/api/client",
+        "//daemon/algod/api/server/v2/generated",
+        "//daemon/algod/api/spec/common",
+        "//data/basics",
+        "//data/transactions",
+        "//protocol",
+    ],
+)
+
+go_binary(
+    name = "loadgenerator",
+    embed = [":loadgenerator_lib"],
+    visibility = ["//visibility:public"],
+)

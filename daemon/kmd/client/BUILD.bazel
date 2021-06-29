@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "client",
+    srcs = [
+        "client.go",
+        "requests.go",
+        "wrappers.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/daemon/kmd/client",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//crypto",
+        "//daemon/kmd/api/v1:api",
+        "//daemon/kmd/lib/kmdapi",
+        "//data/transactions",
+        "//protocol",
+    ],
+)

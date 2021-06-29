@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "nodecfg_lib",
+    srcs = [
+        "apply.go",
+        "commands.go",
+        "download.go",
+        "get.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/nodecfg",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//netdeploy/remote",
+        "//netdeploy/remote/nodecfg",
+        "//util",
+        "//util/s3",
+        "//util/tar",
+        "@com_github_sirupsen_logrus//:logrus",
+        "@com_github_spf13_cobra//:cobra",
+    ],
+)
+
+go_binary(
+    name = "nodecfg",
+    embed = [":nodecfg_lib"],
+    visibility = ["//visibility:public"],
+)

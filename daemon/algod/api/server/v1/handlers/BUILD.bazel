@@ -1,0 +1,42 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "handlers",
+    srcs = [
+        "errors.go",
+        "handlers.go",
+        "responses.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/daemon/algod/api/server/v1/handlers",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//agreement",
+        "//config",
+        "//crypto",
+        "//daemon/algod/api/server/lib",
+        "//daemon/algod/api/spec/v1:spec",
+        "//data",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//ledger/ledgercore",
+        "//logging",
+        "//node",
+        "//protocol",
+        "//rpcs",
+        "@com_github_labstack_echo_v4//:echo",
+    ],
+)
+
+go_test(
+    name = "handlers_test",
+    srcs = ["handlers_test.go"],
+    embed = [":handlers"],
+    deps = [
+        "//data/basics",
+        "//data/transactions",
+        "//node",
+        "//protocol",
+        "@com_github_stretchr_testify//require",
+    ],
+)

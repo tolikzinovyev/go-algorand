@@ -1,0 +1,27 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "middlewares",
+    srcs = [
+        "auth.go",
+        "cors.go",
+        "logger.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/daemon/algod/api/server/lib/middlewares",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//logging",
+        "@com_github_labstack_echo_v4//:echo",
+        "@com_github_labstack_echo_v4//middleware",
+    ],
+)
+
+go_test(
+    name = "middlewares_test",
+    srcs = ["auth_test.go"],
+    embed = [":middlewares"],
+    deps = [
+        "@com_github_labstack_echo_v4//:echo",
+        "@com_github_stretchr_testify//require",
+    ],
+)

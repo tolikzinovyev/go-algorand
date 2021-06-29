@@ -1,0 +1,5 @@
+filegroup(
+    name = 'nettemplates',
+    srcs = glob(['*']),
+    visibility = ["//visibility:public"],
+)

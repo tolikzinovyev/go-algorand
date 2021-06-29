@@ -1,0 +1,34 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "catchpointdump_lib",
+    srcs = [
+        "commands.go",
+        "database.go",
+        "file.go",
+        "net.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/catchpointdump",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//config",
+        "//crypto/merkletrie",
+        "//data/basics",
+        "//ledger",
+        "//ledger/ledgercore",
+        "//logging",
+        "//network",
+        "//protocol",
+        "//tools/network",
+        "//util",
+        "//util/db",
+        "@com_github_spf13_cobra//:cobra",
+        "@com_github_spf13_cobra//doc",
+    ],
+)
+
+go_binary(
+    name = "catchpointdump",
+    embed = [":catchpointdump_lib"],
+    visibility = ["//visibility:public"],
+)

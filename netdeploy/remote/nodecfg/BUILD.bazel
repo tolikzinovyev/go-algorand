@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "nodecfg",
+    srcs = [
+        "nodeConfigurator.go",
+        "nodeDir.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/netdeploy/remote/nodecfg",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//data/bookkeeping",
+        "//logging",
+        "//netdeploy/remote",
+        "//shared/algoh",
+        "//tools/network/cloudflare",
+        "//util",
+        "//util/tokens",
+    ],
+)

@@ -1,0 +1,36 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "nodecontrol",
+    srcs = [
+        "LaggedStdIo.go",
+        "NodeController.go",
+        "algodControl.go",
+        "kmdControl.go",
+        "kmdControl_common.go",
+        "kmdControl_windows.go",
+        "nodeControlErrors.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/nodecontrol",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//cmd/kmd/codes",
+        "//config",
+        "//daemon/algod/api/client",
+        "//daemon/kmd/client",
+        "//daemon/kmd/lib/kmdapi",
+        "//daemon/kmd/server",
+        "//data/bookkeeping",
+        "//logging",
+        "//protocol",
+        "//util",
+        "//util/tokens",
+    ],
+)
+
+go_test(
+    name = "nodecontrol_test",
+    srcs = ["algodControl_test.go"],
+    embed = [":nodecontrol"],
+    deps = ["@com_github_stretchr_testify//require"],
+)

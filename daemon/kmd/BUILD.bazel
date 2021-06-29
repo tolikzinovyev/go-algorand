@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "kmd",
+    srcs = ["kmd.go"],
+    importpath = "github.com/algorand/go-algorand/daemon/kmd",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//daemon/kmd/config",
+        "//daemon/kmd/server",
+        "//daemon/kmd/session",
+        "//daemon/kmd/wallet/driver",
+        "//logging",
+        "//util/tokens",
+    ],
+)

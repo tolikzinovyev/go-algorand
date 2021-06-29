@@ -1,0 +1,82 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "libgoal",
+    srcs = [
+        "accounts.go",
+        "error.go",
+        "libgoal.go",
+        "lockedFile.go",
+        "lockedFileLinux.go",
+        "lockedFileUnix.go",
+        "lockedFileWindows.go",
+        "participation.go",
+        "system.go",
+        "teal.go",
+        "transactions.go",
+        "unencryptedWallet.go",
+        "walletHandles.go",
+        "wallets.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/libgoal",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//daemon/algod/api/client",
+        "//daemon/algod/api/server/v2:server",
+        "//daemon/algod/api/server/v2/generated",
+        "//daemon/algod/api/spec/common",
+        "//daemon/algod/api/spec/v1:spec",
+        "//daemon/kmd/client",
+        "//daemon/kmd/lib/kmdapi",
+        "//data/account",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//nodecontrol",
+        "//protocol",
+        "//rpcs",
+        "//util",
+        "//util/db",
+    ] + select({
+        "@io_bazel_rules_go//go/platform:aix": [
+            "@org_golang_x_sys//unix",
+        ],
+        "@io_bazel_rules_go//go/platform:android": [
+            "@org_golang_x_sys//unix",
+        ],
+        "@io_bazel_rules_go//go/platform:darwin": [
+            "@org_golang_x_sys//unix",
+        ],
+        "@io_bazel_rules_go//go/platform:dragonfly": [
+            "@org_golang_x_sys//unix",
+        ],
+        "@io_bazel_rules_go//go/platform:freebsd": [
+            "@org_golang_x_sys//unix",
+        ],
+        "@io_bazel_rules_go//go/platform:ios": [
+            "@org_golang_x_sys//unix",
+        ],
+        "@io_bazel_rules_go//go/platform:linux": [
+            "@org_golang_x_sys//unix",
+        ],
+        "@io_bazel_rules_go//go/platform:netbsd": [
+            "@org_golang_x_sys//unix",
+        ],
+        "@io_bazel_rules_go//go/platform:openbsd": [
+            "@org_golang_x_sys//unix",
+        ],
+        "@io_bazel_rules_go//go/platform:solaris": [
+            "@org_golang_x_sys//unix",
+        ],
+        "//conditions:default": [],
+    }),
+)
+
+go_test(
+    name = "libgoal_test",
+    srcs = ["libgoal_test.go"],
+    embed = [":libgoal"],
+    deps = ["@com_github_stretchr_testify//require"],
+)

@@ -1,0 +1,38 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "algod",
+    srcs = [
+        "deadlockLogger.go",
+        "server.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/daemon/algod",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//daemon/algod/api/server",
+        "//daemon/algod/api/server/lib",
+        "//data/bookkeeping",
+        "//logging",
+        "//logging/telemetryspec",
+        "//node",
+        "//util/metrics",
+        "//util/tokens",
+        "@com_github_algorand_go_deadlock//:go-deadlock",
+    ],
+)
+
+go_test(
+    name = "algod_test",
+    srcs = [
+        "deadlock_test.go",
+        "server_test.go",
+    ],
+    embed = [":algod"],
+    deps = [
+        "//crypto",
+        "//logging",
+        "@com_github_algorand_go_deadlock//:go-deadlock",
+        "@com_github_stretchr_testify//require",
+    ],
+)

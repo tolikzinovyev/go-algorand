@@ -1,0 +1,18 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "dispenser_lib",
+    srcs = ["server.go"],
+    importpath = "github.com/algorand/go-algorand/cmd/dispenser",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//libgoal",
+        "@org_golang_x_crypto//acme/autocert",
+    ],
+)
+
+go_binary(
+    name = "dispenser",
+    embed = [":dispenser_lib"],
+    visibility = ["//visibility:public"],
+)

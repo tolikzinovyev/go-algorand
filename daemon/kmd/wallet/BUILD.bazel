@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "wallet",
+    srcs = ["wallet.go"],
+    importpath = "github.com/algorand/go-algorand/daemon/kmd/wallet",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//crypto",
+        "//data/transactions",
+        "//protocol",
+    ],
+)

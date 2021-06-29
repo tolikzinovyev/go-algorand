@@ -1,0 +1,8 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "eb",
+    srcs = ["eb.go"],
+    importpath = "github.com/algorand/go-algorand/cmd/algorelay/eb",
+    visibility = ["//visibility:public"],
+)

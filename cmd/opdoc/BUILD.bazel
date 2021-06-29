@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "opdoc_lib",
+    srcs = [
+        "opdoc.go",
+        "tmLanguage.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/opdoc",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//config",
+        "//data/transactions/logic",
+        "//protocol",
+    ],
+)
+
+go_binary(
+    name = "opdoc",
+    embed = [":opdoc_lib"],
+    visibility = ["//visibility:public"],
+)

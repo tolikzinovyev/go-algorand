@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "client",
+    srcs = [
+        "encoding.go",
+        "restClient.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/daemon/algod/api/client",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//crypto",
+        "//daemon/algod/api/server/v2/generated",
+        "//daemon/algod/api/server/v2/generated/private",
+        "//daemon/algod/api/spec/common",
+        "//daemon/algod/api/spec/v1:spec",
+        "//data/basics",
+        "//data/transactions",
+        "//protocol",
+        "@com_github_google_go_querystring//query",
+    ],
+)

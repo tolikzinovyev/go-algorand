@@ -1,0 +1,27 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "algocfg_lib",
+    srcs = [
+        "datadir.go",
+        "getCommand.go",
+        "main.go",
+        "messages.go",
+        "report.go",
+        "resetCommand.go",
+        "setCommand.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/algocfg",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//config",
+        "//util/codecs",
+        "@com_github_spf13_cobra//:cobra",
+    ],
+)
+
+go_binary(
+    name = "algocfg",
+    embed = [":algocfg_lib"],
+    visibility = ["//visibility:public"],
+)

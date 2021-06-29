@@ -1,0 +1,35 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "netdeploy",
+    srcs = [
+        "network.go",
+        "networkTemplate.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/netdeploy",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//daemon/algod/api/server/v2/generated",
+        "//gen",
+        "//libgoal",
+        "//netdeploy/remote",
+        "//nodecontrol",
+        "//util",
+    ],
+)
+
+go_test(
+    name = "netdeploy_test",
+    srcs = [
+        "networkTemplates_test.go",
+        "network_test.go",
+    ],
+    embed = [":netdeploy"],
+    deps = [
+        "//config",
+        "@com_github_stretchr_testify//require",
+    ],
+    data = ["//test/testdata/nettemplates"],
+)

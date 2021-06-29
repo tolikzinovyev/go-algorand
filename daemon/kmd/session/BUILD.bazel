@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "session",
+    srcs = [
+        "auth.go",
+        "session.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/daemon/kmd/session",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//daemon/kmd/config",
+        "//daemon/kmd/wallet",
+        "@com_github_algorand_go_deadlock//:go-deadlock",
+    ],
+)

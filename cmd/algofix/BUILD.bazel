@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+
+go_library(
+    name = "algofix_lib",
+    srcs = [
+        "deadlock.go",
+        "doc.go",
+        "fix.go",
+        "main.go",
+        "typecheck.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/algofix",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "algofix",
+    embed = [":algofix_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "algofix_test",
+    srcs = [
+        "deadlock_test.go",
+        "import_test.go",
+        "main_test.go",
+    ],
+    embed = [":algofix_lib"],
+    deps = ["@com_github_stretchr_testify//require"],
+)

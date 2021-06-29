@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "algoh",
+    srcs = ["config.go"],
+    importpath = "github.com/algorand/go-algorand/shared/algoh",
+    visibility = ["//visibility:public"],
+    deps = ["//util/codecs"],
+)

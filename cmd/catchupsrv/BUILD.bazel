@@ -1,0 +1,37 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+
+go_library(
+    name = "catchupsrv_lib",
+    srcs = [
+        "download.go",
+        "main.go",
+        "tarblocks.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/catchupsrv",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//logging",
+        "//network",
+        "//protocol",
+        "//rpcs",
+        "//tools/network",
+        "@com_github_algorand_go_deadlock//:go-deadlock",
+        "@com_github_algorand_websocket//:websocket",
+        "@com_github_gorilla_mux//:mux",
+    ],
+)
+
+go_binary(
+    name = "catchupsrv",
+    embed = [":catchupsrv_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "catchupsrv_test",
+    srcs = ["download_test.go"],
+    embed = [":catchupsrv_lib"],
+    deps = ["@com_github_stretchr_testify//require"],
+)

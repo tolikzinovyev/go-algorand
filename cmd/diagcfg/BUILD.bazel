@@ -1,0 +1,25 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "diagcfg_lib",
+    srcs = [
+        "main.go",
+        "messages.go",
+        "metric.go",
+        "telemetry.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/diagcfg",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//config",
+        "//logging",
+        "@com_github_spf13_cobra//:cobra",
+        "@com_github_spf13_cobra//doc",
+    ],
+)
+
+go_binary(
+    name = "diagcfg",
+    embed = [":diagcfg_lib"],
+    visibility = ["//visibility:public"],
+)

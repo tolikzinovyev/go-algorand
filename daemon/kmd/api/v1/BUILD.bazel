@@ -1,0 +1,25 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "api",
+    srcs = [
+        "auth.go",
+        "errors.go",
+        "handlers.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/daemon/kmd/api/v1",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//crypto",
+        "//daemon/kmd/lib/kmdapi",
+        "//daemon/kmd/session",
+        "//daemon/kmd/wallet",
+        "//daemon/kmd/wallet/driver",
+        "//data/basics",
+        "//data/transactions",
+        "//logging",
+        "//protocol",
+        "//util/tokens",
+        "@com_github_gorilla_mux//:mux",
+    ],
+)

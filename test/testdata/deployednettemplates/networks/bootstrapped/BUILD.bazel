@@ -1,0 +1,5 @@
+filegroup(
+    name = 'bootstrapped',
+    srcs = glob(['*']),
+    visibility = ["//visibility:public"],
+)

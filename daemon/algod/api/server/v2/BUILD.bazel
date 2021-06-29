@@ -1,0 +1,54 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "server",
+    srcs = [
+        "account.go",
+        "dryrun.go",
+        "errors.go",
+        "handlers.go",
+        "utils.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/daemon/algod/api/server/v2",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//daemon/algod/api/server/v2/generated",
+        "//daemon/algod/api/server/v2/generated/private",
+        "//data",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//data/transactions/logic",
+        "//ledger",
+        "//ledger/apply",
+        "//ledger/ledgercore",
+        "//logging",
+        "//node",
+        "//protocol",
+        "//rpcs",
+        "@com_github_algorand_go_codec_codec//:codec",
+        "@com_github_labstack_echo_v4//:echo",
+    ],
+)
+
+go_test(
+    name = "server_test",
+    srcs = [
+        "account_test.go",
+        "dryrun_test.go",
+    ],
+    embed = [":server"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//daemon/algod/api/server/v2/generated",
+        "//data/basics",
+        "//data/transactions",
+        "//data/transactions/logic",
+        "//protocol",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

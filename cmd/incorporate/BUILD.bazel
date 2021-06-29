@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "incorporate_lib",
+    srcs = ["incorporate.go"],
+    importpath = "github.com/algorand/go-algorand/cmd/incorporate",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//protocol",
+        "//util/codecs",
+    ],
+)
+
+go_binary(
+    name = "incorporate",
+    embed = [":incorporate_lib"],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,50 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+
+go_library(
+    name = "algoh_lib",
+    srcs = [
+        "blockWatcher.go",
+        "blockstats.go",
+        "client.go",
+        "deadman.go",
+        "eventsender.go",
+        "main.go",
+        "mockClient.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/algoh",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//config",
+        "//crypto",
+        "//daemon/algod/api/client",
+        "//daemon/algod/api/server/v2/generated",
+        "//daemon/algod/api/spec/v1:spec",
+        "//data/bookkeeping",
+        "//logging",
+        "//logging/telemetryspec",
+        "//nodecontrol",
+        "//shared/algoh",
+        "//tools/network",
+        "//util",
+    ],
+)
+
+go_binary(
+    name = "algoh",
+    embed = [":algoh_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "algoh_test",
+    srcs = [
+        "blockWatcher_test.go",
+        "blockstats_test.go",
+    ],
+    embed = [":algoh_lib"],
+    deps = [
+        "//daemon/algod/api/spec/v1:spec",
+        "//logging/telemetryspec",
+        "@com_github_stretchr_testify//require",
+    ],
+)

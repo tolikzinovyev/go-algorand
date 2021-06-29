@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "lib",
+    srcs = [
+        "bundledSpecInject.go",
+        "common.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/daemon/algod/api/server/lib",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//logging",
+        "//node",
+        "@com_github_labstack_echo_v4//:echo",
+    ],
+)

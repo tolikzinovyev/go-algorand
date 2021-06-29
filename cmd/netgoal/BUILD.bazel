@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "netgoal_lib",
+    srcs = [
+        "commands.go",
+        "generate.go",
+        "messages.go",
+        "network.go",
+        "recipe.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/netgoal",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//gen",
+        "//netdeploy",
+        "//netdeploy/remote",
+        "//util",
+        "//util/codecs",
+        "@com_github_sirupsen_logrus//:logrus",
+        "@com_github_spf13_cobra//:cobra",
+    ],
+)
+
+go_binary(
+    name = "netgoal",
+    embed = [":netgoal_lib"],
+    visibility = ["//visibility:public"],
+)

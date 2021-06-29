@@ -1,0 +1,74 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+
+go_library(
+    name = "tealdbg_lib",
+    srcs = [
+        "cdtSession.go",
+        "cdtState.go",
+        "cdtdbg.go",
+        "debugger.go",
+        "dryrunRequest.go",
+        "homepage.go",
+        "local.go",
+        "localLedger.go",
+        "main.go",
+        "remote.go",
+        "server.go",
+        "util.go",
+        "webdbg.go",
+    ],
+    importpath = "github.com/algorand/go-algorand/cmd/tealdbg",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//cmd/tealdbg/cdt",
+        "//config",
+        "//crypto",
+        "//daemon/algod/api/server/v2:server",
+        "//daemon/algod/api/server/v2/generated",
+        "//data/basics",
+        "//data/bookkeeping",
+        "//data/transactions",
+        "//data/transactions/logic",
+        "//ledger",
+        "//ledger/apply",
+        "//protocol",
+        "@com_github_algorand_go_deadlock//:go-deadlock",
+        "@com_github_algorand_websocket//:websocket",
+        "@com_github_gorilla_mux//:mux",
+        "@com_github_spf13_cobra//:cobra",
+    ],
+)
+
+go_binary(
+    name = "tealdbg",
+    embed = [":tealdbg_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "tealdbg_test",
+    srcs = [
+        "cdtSession_test.go",
+        "cdtdbg_test.go",
+        "debugger_test.go",
+        "localLedger_test.go",
+        "local_test.go",
+        "remote_test.go",
+        "server_test.go",
+        "util_test.go",
+        "webdbg_test.go",
+    ],
+    embed = [":tealdbg_lib"],
+    deps = [
+        "//cmd/tealdbg/cdt",
+        "//config",
+        "//daemon/algod/api/server/v2:server",
+        "//data/basics",
+        "//data/transactions",
+        "//data/transactions/logic",
+        "//ledger/apply",
+        "//protocol",
+        "@com_github_gorilla_mux//:mux",
+        "@com_github_stretchr_testify//require",
+    ],
+)

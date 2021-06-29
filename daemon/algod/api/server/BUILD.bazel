@@ -1,0 +1,35 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "server",
+    srcs = ["router.go"],
+    importpath = "github.com/algorand/go-algorand/daemon/algod/api/server",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//daemon/algod/api/server/common",
+        "//daemon/algod/api/server/lib",
+        "//daemon/algod/api/server/lib/middlewares",
+        "//daemon/algod/api/server/v1/routes",
+        "//daemon/algod/api/server/v2:server",
+        "//daemon/algod/api/server/v2/generated",
+        "//daemon/algod/api/server/v2/generated/private",
+        "//logging",
+        "//node",
+        "//util/tokens",
+        "@com_github_labstack_echo_v4//:echo",
+        "@com_github_labstack_echo_v4//middleware",
+    ],
+)
+
+go_test(
+    name = "server_test",
+    srcs = ["router_test.go"],
+    embed = [":server"],
+    deps = [
+        "//daemon/algod/api/server/lib",
+        "//daemon/algod/api/server/v1/routes",
+        "@com_github_labstack_echo_v4//:echo",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//suite",
+    ],
+)
