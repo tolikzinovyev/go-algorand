@@ -84,6 +84,7 @@ go_library(
 
 go_test(
     name = "network_test",
+    size = "large",
     srcs = [
         "connPerfMon_test.go",
         "limited_reader_slurper_test.go",

@@ -58,6 +58,7 @@ go_library(
 
 go_test(
     name = "ledger_test",
+    size = "large",
     srcs = [
         "accountdb_test.go",
         "acctupdates_test.go",
