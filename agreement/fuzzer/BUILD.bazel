@@ -7,54 +7,104 @@ go_library(
     visibility = ["//visibility:public"],
 )
 
+common_test_srcs = [
+    "bandwidthFilter_test.go",
+    "catchupFilter_test.go",
+    "clockedFilter_test.go",
+    "dropMessageFilter_test.go",
+    "duplicateMessageFilter_test.go",
+    "filter_test.go",
+    "fuzzer_test.go",
+    "keyManager_test.go",
+    "ledger_test.go",
+    "messageDecoderFilter_test.go",
+    "messageDelayFilter_test.go",
+    "messageDuplicationFilter_test.go",
+    "messagePriorityQueue_test.go",
+    "messageReflectionFilter_test.go",
+    "messageRegossipFilter_test.go",
+    "messageReorderingFilter_test.go",
+    "networkFacade_test.go",
+    "nodeCrashFilter_test.go",
+    "nullFilter_test.go",
+    "router_test.go",
+    "schedulerFilter_test.go",
+    "topologyFilter_test.go",
+    "trafficStatisticsFilter_test.go",
+    "validator_test.go",
+    "voteFilter_test.go",
+]
+
+test_deps = [
+    "//agreement",
+    "//agreement/gossip",
+    "//config",
+    "//crypto",
+    "//data/account",
+    "//data/basics",
+    "//data/bookkeeping",
+    "//data/committee",
+    "//logging",
+    "//network",
+    "//protocol",
+    "//util/db",
+    "//util/timers",
+    "@com_github_algorand_go_deadlock//:go_default_library",
+    "@com_github_stretchr_testify//require:go_default_library",
+]
+
 go_test(
-    name = "fuzzer_test",
-    size = "enormous",
-    srcs = [
-        "bandwidthFilter_test.go",
-        "catchupFilter_test.go",
-        "clockedFilter_test.go",
-        "dropMessageFilter_test.go",
-        "duplicateMessageFilter_test.go",
-        "filter_test.go",
-        "fuzzer_test.go",
-        "keyManager_test.go",
-        "ledger_test.go",
-        "messageDecoderFilter_test.go",
-        "messageDelayFilter_test.go",
-        "messageDuplicationFilter_test.go",
-        "messagePriorityQueue_test.go",
-        "messageReflectionFilter_test.go",
-        "messageRegossipFilter_test.go",
-        "messageReorderingFilter_test.go",
-        "networkFacade_test.go",
-        "nodeCrashFilter_test.go",
-        "nullFilter_test.go",
-        "router_test.go",
-        "schedulerFilter_test.go",
-        "tests_test.go",
-        "topologyFilter_test.go",
-        "trafficStatisticsFilter_test.go",
-        "validator_test.go",
-        "voteFilter_test.go",
-    ],
-    data = glob(["testdata/**"]),
+    name = "tests_test",
+    size = "small",
+    srcs = common_test_srcs + ["tests_test.go"],
     embed = [":fuzzer"],
-    deps = [
-        "//agreement",
-        "//agreement/gossip",
-        "//config",
-        "//crypto",
-        "//data/account",
-        "//data/basics",
-        "//data/bookkeeping",
-        "//data/committee",
-        "//logging",
-        "//network",
-        "//protocol",
-        "//util/db",
-        "//util/timers",
-        "@com_github_algorand_go_deadlock//:go_default_library",
-        "@com_github_stretchr_testify//require:go_default_library",
-    ],
+    deps = test_deps,
+)
+
+go_test(
+    name = "test_circular_network_topology_test",
+    size = "medium",
+    srcs = common_test_srcs + ["test_circular_network_topology_test.go"],
+    embed = [":fuzzer"],
+    deps = test_deps,
+)
+
+go_test(
+    name = "test_fuzzer_test",
+    size = "small",
+    srcs = common_test_srcs + ["test_fuzzer_test.go"],
+    embed = [":fuzzer"],
+    deps = test_deps,
+)
+
+go_test(
+    name = "test_network_bandwidth_test",
+    size = "large",
+    srcs = common_test_srcs + ["test_network_bandwidth_test.go"],
+    embed = [":fuzzer"],
+    deps = test_deps,
+)
+
+go_test(
+    name = "test_regossip_elimination_test",
+    size = "medium",
+    srcs = common_test_srcs + ["test_regossip_elimination_test.go"],
+    embed = [":fuzzer"],
+    deps = test_deps,
+)
+
+go_test(
+    name = "test_staked_network_quadratic_growth_test",
+    size = "medium",
+    srcs = common_test_srcs + ["test_staked_network_quadratic_growth_test.go"],
+    embed = [":fuzzer"],
+    deps = test_deps,
+)
+
+go_test(
+    name = "test_unstaked_network_linear_growth_test",
+    size = "medium",
+    srcs = common_test_srcs + ["test_unstaked_network_linear_growth_test.go"],
+    embed = [":fuzzer"],
+    deps = test_deps,
 )
