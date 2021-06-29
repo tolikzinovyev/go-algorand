@@ -9,7 +9,7 @@ go_library(
 
 go_test(
     name = "fuzzer_test",
-    size = "large",
+    size = "enormous",
     srcs = [
         "bandwidthFilter_test.go",
         "catchupFilter_test.go",

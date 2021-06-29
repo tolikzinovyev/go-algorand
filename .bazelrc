@@ -1,6 +1,9 @@
 # Build libsodium with compiler optimizations.
 build -c opt
 
+# Use -race flag for testing.
+test --@io_bazel_rules_go//go/config:race
+
 # This .bazelrc file contains all of the flags required for the provided
 # toolchain with Remote Build Execution.
 # Note your WORKSPACE must contain an rbe_autoconfig target with

@@ -16,6 +16,7 @@ go_library(
 
 go_test(
     name = "merkletrie_test",
+    size = "large",
     srcs = [
         "bitset_test.go",
         "cache_test.go",

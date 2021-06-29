@@ -35,6 +35,7 @@ go_library(
 
 go_test(
     name = "data_test",
+    size = "large",
     srcs = [
         "common_test.go",
         "ledger_test.go",
