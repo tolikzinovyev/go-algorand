@@ -32,6 +32,7 @@ import (
 	"time"
 
 	"github.com/algorand/go-deadlock"
+	"google.golang.org/grpc"
 
 	"github.com/algorand/go-algorand/config"
 	apiServer "github.com/algorand/go-algorand/daemon/algod/api/server"
@@ -42,6 +43,7 @@ import (
 	"github.com/algorand/go-algorand/logging/telemetryspec"
 	"github.com/algorand/go-algorand/network/limitlistener"
 	"github.com/algorand/go-algorand/node"
+	proto "github.com/algorand/go-algorand/third_party/go-algorand-grpc"
 	"github.com/algorand/go-algorand/util"
 	"github.com/algorand/go-algorand/util/metrics"
 	"github.com/algorand/go-algorand/util/tokens"
@@ -262,6 +264,19 @@ func (s *Server) Start() {
 		errChan <- err
 	}()
 
+	grpcListener, err := net.Listen("tcp", "127.0.0.1:50051")
+	if err != nil {
+		fmt.Printf("could not create grpc listener: %v\n", err)
+		os.Exit(1)
+	}
+
+	grpcServer := grpc.NewServer()
+	proto.RegisterGreeterServer(grpcServer, &apiServer.GrpcServer{})
+	go func() {
+		err := grpcServer.Serve(grpcListener)
+		errChan <- err
+	}()
+
 	// Handle signals cleanly
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
@@ -276,9 +291,11 @@ func (s *Server) Start() {
 			s.log.Info("Node exited successfully")
 		}
 		s.Stop()
+		grpcServer.Stop()
 	case sig := <-c:
 		fmt.Printf("Exiting on %v\n", sig)
 		s.Stop()
+		grpcServer.GracefulStop()
 		os.Exit(0)
 	}
 }
