@@ -109,7 +109,11 @@ cover:
 prof:
 	cd node && go test $(GOTAGS) -cpuprofile=cpu.out -memprofile=mem.out -mutexprofile=mutex.out
 
-generate: deps
+go-algorand-grpc:
+	git submodule update --init
+
+generate: deps go-algorand-grpc
+	protoc --go_out=. --go_opt=module=github.com/algorand/go-algorand --go_opt=Mthird_party/go-algorand-grpc/service.proto=github.com/algorand/go-algorand/daemon/algod/api/server/grpc/proto --go-grpc_out=. --go-grpc_opt=module=github.com/algorand/go-algorand --go-grpc_opt=Mthird_party/go-algorand-grpc/service.proto=github.com/algorand/go-algorand/daemon/algod/api/server/grpc/proto third_party/go-algorand-grpc/service.proto
 	PATH=$(GOPATH1)/bin:$$PATH go generate ./...
 
 msgp: $(patsubst %,%/msgp_gen.go,$(MSGP_GENERATE))
