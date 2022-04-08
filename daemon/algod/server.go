@@ -43,7 +43,7 @@ import (
 	"github.com/algorand/go-algorand/logging/telemetryspec"
 	"github.com/algorand/go-algorand/network/limitlistener"
 	"github.com/algorand/go-algorand/node"
-	proto "github.com/algorand/go-algorand/third_party/go-algorand-grpc"
+	"github.com/algorand/go-algorand/daemon/algod/api/server/grpc/proto"
 	"github.com/algorand/go-algorand/util"
 	"github.com/algorand/go-algorand/util/metrics"
 	"github.com/algorand/go-algorand/util/tokens"
@@ -271,7 +271,8 @@ func (s *Server) Start() {
 	}
 
 	grpcServer := grpc.NewServer()
-	proto.RegisterGreeterServer(grpcServer, &apiServer.GrpcServer{})
+	grpcDefaultServer := apiServer.MakeGrpcServer(s.node)
+	proto.RegisterDefaultServer(grpcServer, &grpcDefaultServer)
 	go func() {
 		err := grpcServer.Serve(grpcListener)
 		errChan <- err

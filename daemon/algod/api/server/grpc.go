@@ -5,14 +5,46 @@ import (
 	"fmt"
 	"log"
 
-	proto "github.com/algorand/go-algorand/third_party/go-algorand-grpc"
+	"github.com/algorand/go-algorand/daemon/algod/api/server/grpc/encoding"
+	"github.com/algorand/go-algorand/daemon/algod/api/server/grpc/proto"
+	"github.com/algorand/go-algorand/data/basics"
+	"github.com/algorand/go-algorand/node"
 )
 
 type GrpcServer struct {
-	proto.UnimplementedGreeterServer
+	proto.UnimplementedDefaultServer
+
+	node *node.AlgorandFullNode
 }
 
-func (s *GrpcServer) SayHello(ctx context.Context, in *proto.HelloRequest) (*proto.HelloReply, error) {
-	log.Printf("Received: %v", in.Name)
-	return &proto.HelloReply{Msg: fmt.Sprintf("Hello %s from algod", in.Name)}, nil
+func MakeGrpcServer(node *node.AlgorandFullNode) GrpcServer {
+	return GrpcServer{
+		node: node,
+	}
+}
+
+func (s *GrpcServer) AccountInformation(ctx context.Context, in *proto.AccountRequest) (*proto.AccountResponse, error) {
+	var address basics.Address
+	copy(address[:], in.Address)
+
+	log.Printf("Received: %s", address)
+
+	accountData, round, amountWithoutPendingRewards, err :=
+		s.node.Ledger().LookupLatest(address)
+	if err != nil {
+		return nil, fmt.Errorf("AccountInformation() err: %w", err)
+	}
+
+	cparams, err := s.node.Ledger().ConsensusParams(round)
+	if err != nil {
+		return nil, fmt.Errorf("AccountInformation() err: %w", err)
+	}
+
+	res := &proto.AccountResponse{
+		AccountData: encoding.ConvertAccountData(&accountData),
+		Round: uint64(round),
+		AmountWithoutPendingRewards: amountWithoutPendingRewards.Raw,
+		MinBalance: accountData.MinBalance(&cparams).Raw,
+	}
+	return res, nil
 }
